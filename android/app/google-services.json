@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "693358220989",
+    "project_id": "inprep-1892a",
+    "storage_bucket": "inprep-1892a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:693358220989:android:e23675279dc48364a549d4",
+        "android_client_info": {
+          "package_name": "com.example.in_prep"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2mtngGNet0X6GEsHW4Cs9WCPdU5duYfE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
