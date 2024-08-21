@@ -107,6 +107,16 @@ class _FbRegisterState extends State<FbRegister> {
                       ),
                     );
                   }
+                } catch (e) {
+                  print(e);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(e.toString()),
+                      behavior: SnackBarBehavior.floating,
+                      backgroundColor: Colors.red,
+                      margin: EdgeInsets.only(top: 50, left: 20, right: 20),
+                    ),
+                  );
                 }
               },
               child: Container(
