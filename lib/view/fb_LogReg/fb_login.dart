@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:in_prep/view/fb_LogReg/fb_home.dart';
 import 'package:in_prep/view/fb_LogReg/fb_register.dart';
@@ -70,12 +72,50 @@ class _FbLoginState extends State<FbLogin> {
               height: 20,
             ),
             InkWell(
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => FbHome(),
-                    ));
+              onTap: () async {
+                try {
+                  final credential = await FirebaseAuth.instance
+                      .signInWithEmailAndPassword(
+                          email: emailController.text,
+                          password: passController.text);
+                  if (credential.user?.uid != null) {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => FbHome(),
+                        ));
+                  }
+                } on FirebaseAuthException catch (e) {
+                  if (e.code == 'Week Password') {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text("password too short"),
+                        behavior: SnackBarBehavior.floating,
+                        backgroundColor: Colors.red,
+                        margin: EdgeInsets.only(top: 50, left: 20, right: 20),
+                      ),
+                    );
+                  } else if (e.code == "email already exists") {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text("password too short"),
+                        behavior: SnackBarBehavior.floating,
+                        backgroundColor: Colors.red,
+                        margin: EdgeInsets.only(top: 50, left: 20, right: 20),
+                      ),
+                    );
+                  }
+                } catch (e) {
+                  print(e);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(e.toString()),
+                      behavior: SnackBarBehavior.floating,
+                      backgroundColor: Colors.red,
+                      margin: EdgeInsets.only(top: 50, left: 20, right: 20),
+                    ),
+                  );
+                }
               },
               child: Container(
                 height: 50,
