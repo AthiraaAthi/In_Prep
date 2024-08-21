@@ -1,8 +1,19 @@
+import 'dart:nativewrappers/_internal/vm/lib/internal_patch.dart';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:in_prep/view/fb_LogReg/fb_login.dart';
 
-class FbRegister extends StatelessWidget {
+class FbRegister extends StatefulWidget {
   const FbRegister({super.key});
+
+  @override
+  State<FbRegister> createState() => _FbRegisterState();
+}
+
+class _FbRegisterState extends State<FbRegister> {
+  final emailController = TextEditingController();
+  final passController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +41,7 @@ class FbRegister extends StatelessWidget {
                   border: Border.all(color: Color.fromARGB(255, 21, 69, 23)),
                   borderRadius: BorderRadius.circular(15)),
               child: TextFormField(
+                controller: emailController,
                 decoration: InputDecoration(
                     contentPadding: EdgeInsets.only(left: 25),
                     border: InputBorder.none,
@@ -48,6 +60,7 @@ class FbRegister extends StatelessWidget {
                   border: Border.all(color: Color.fromARGB(255, 21, 69, 23)),
                   borderRadius: BorderRadius.circular(15)),
               child: TextFormField(
+                controller: passController,
                 decoration: InputDecoration(
                     contentPadding: EdgeInsets.only(left: 25),
                     border: InputBorder.none,
@@ -60,12 +73,41 @@ class FbRegister extends StatelessWidget {
               height: 20,
             ),
             InkWell(
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => FbLogin(),
-                    ));
+              onTap: () async {
+                try {
+                  final credential = await FirebaseAuth.instance
+                      .createUserWithEmailAndPassword(
+                    email: emailController.text,
+                    password: passController.text,
+                  );
+                  if (credential.user?.uid != null) {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => FbLogin(),
+                        ));
+                  }
+                } on FirebaseAuthException catch (e) {
+                  if (e.code == 'Week Password') {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text("password too short"),
+                        behavior: SnackBarBehavior.floating,
+                        backgroundColor: Colors.red,
+                        margin: EdgeInsets.only(top: 50, left: 20, right: 20),
+                      ),
+                    );
+                  } else if (e.code == "email already exists") {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text("password too short"),
+                        behavior: SnackBarBehavior.floating,
+                        backgroundColor: Colors.red,
+                        margin: EdgeInsets.only(top: 50, left: 20, right: 20),
+                      ),
+                    );
+                  }
+                }
               },
               child: Container(
                 height: 50,
