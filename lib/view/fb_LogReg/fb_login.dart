@@ -2,8 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:in_prep/view/fb_LogReg/fb_home.dart';
 import 'package:in_prep/view/fb_LogReg/fb_register.dart';
 
-class FbLogin extends StatelessWidget {
+class FbLogin extends StatefulWidget {
   const FbLogin({super.key});
+
+  @override
+  State<FbLogin> createState() => _FbLoginState();
+}
+
+class _FbLoginState extends State<FbLogin> {
+  final emailController = TextEditingController();
+  final passController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +38,7 @@ class FbLogin extends StatelessWidget {
                   border: Border.all(color: Color.fromARGB(255, 21, 69, 23)),
                   borderRadius: BorderRadius.circular(15)),
               child: TextFormField(
+                controller: emailController,
                 decoration: InputDecoration(
                     contentPadding: EdgeInsets.only(left: 25),
                     border: InputBorder.none,
@@ -48,6 +57,7 @@ class FbLogin extends StatelessWidget {
                   border: Border.all(color: Color.fromARGB(255, 21, 69, 23)),
                   borderRadius: BorderRadius.circular(15)),
               child: TextFormField(
+                controller: passController,
                 decoration: InputDecoration(
                     contentPadding: EdgeInsets.only(left: 25),
                     border: InputBorder.none,
